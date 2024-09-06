@@ -14,11 +14,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // We can get the coordinates from the browser and use users current location.
-    getWeather();
-  }, []);
-
-  useEffect(() => {
     if (weather?.city) {
       const lat = weather.city.coord.lat;
       const lon = weather.city.coord.lon;
@@ -31,6 +26,7 @@ function App() {
     }
   }, [weather]);
 
+  // eslint-disable-next-line 
   const getWeather = () => {
     setIsLoading(true);
     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&exclude=hourly&units=metric&appid=${openWeatherAPIKey}
@@ -49,6 +45,11 @@ function App() {
       setIsLoading(false);
     });
   };
+  
+  useEffect(() => {
+    // We can get the coordinates from the browser and use users current location.
+    getWeather();
+  }, [getWeather]);
 
   return (
     <FahrenheitContext.Provider value={useFahrenheit}>
